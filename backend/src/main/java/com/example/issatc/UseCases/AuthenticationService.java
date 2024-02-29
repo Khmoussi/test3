@@ -14,15 +14,16 @@ public class AuthenticationService implements AuthenticationServicePort {
     }
 
     @Override
-    public boolean createAccount(AccountRequest accountRequest) {
+    public int createAccount(AccountRequest accountRequest) {
       Account  account=new Account(accountRequest.getEmail(), accountRequest.getPassword(), accountRequest.getNumTelephone());
       //verify user exists and doesn't have account
-      if(  this.authenticationRepository.createAccountVerification(accountRequest.getEmail()))
+        int result =this.authenticationRepository.createAccountVerification(accountRequest.getEmail());
+      if(result  ==1)
       {
-          return  authenticationRepository.saveAccount(account);
+            authenticationRepository.saveAccount(account);
 
       }
-       return false;
+       return result;
 
     }
 

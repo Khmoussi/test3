@@ -14,5 +14,5 @@ public interface AuthenticationRepository {
 
     boolean existsByEmail(String email);
 
-    boolean createAccountVerification(String email);
+    int createAccountVerification(String email);
 }

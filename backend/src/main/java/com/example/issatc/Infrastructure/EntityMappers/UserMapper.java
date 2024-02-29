@@ -1,12 +1,15 @@
 package com.example.issatc.Infrastructure.EntityMappers;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity(name = "user")
 @AllArgsConstructor
@@ -17,14 +20,29 @@ public class UserMapper implements UserDetails {
     private String firstName;
     private String lastName;
     private String password;
+    private Role role;
+
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    //   @OneToMany(mappedBy = "user")
+ //   private List<Token> token;
     public UserMapper() {
 
     }
 
-    public UserMapper(String email, String name, String lastname) {
+    public UserMapper(String email, String name, String lastname,Role role) {
         this.email = email;
         this.firstName = name;
         this.lastName = lastname;
+        this.role=role;
     }
 
     public void setEmail(String email) {
@@ -41,6 +59,9 @@ public class UserMapper implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        if(this.role!=null)
+        return this.role.getAuthorities();
         return null;
     }
 
@@ -72,5 +93,8 @@ public class UserMapper implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    public Role getRole(){
+        return this.role;
     }
 }
